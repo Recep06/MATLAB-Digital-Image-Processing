@@ -510,7 +510,7 @@ subplot(222)
 imshow(m2)
 
 
-30)COUNT PENNY
+30)COUNT COIN
 m1=imread("rgbbozukparalar-292x300.jpg");
 subplot(321); title('orijinal image');
 m2=im2bw(m1); 
