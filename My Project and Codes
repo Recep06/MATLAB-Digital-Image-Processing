@@ -508,3 +508,21 @@ subplot(221)
 imshow(gri)
 subplot(222)
 imshow(m2)
+
+
+30)COUNT PENNY
+m1=imread("rgbbozukparalar-292x300.jpg");
+subplot(321); title('orijinal image');
+m2=im2bw(m1); 
+subplot(322); title('Black and White İmage');
+m3=imcomplement(m2);
+subplot(323); title('complementation image');
+m4=bwareaopen(m3,25); 
+subplot(324); title('Less than 25 removed');
+m5=imfill(m4,'holes');
+subplot(325); title('blank filled image');
+SE=strel('disk',12);
+m6=imerode(m5,SE);
+[L, number]=bwlabel(m6); %to count how many white circles there are
+subplot(326); title('junction points with disk are separated');
+xlabel(['there is ',num2str(number),'coins in this image']);
