@@ -1,0 +1,510 @@
+1)Cuttting
+m1=imread('test1.jpg');
+kesim=m1(30:80,90:140);
+figure, imshow (m1);
+figure, imshow (kesim);
+ 
+2)MAKING A PICTURE IN BLACK AND WHITE
+m1=imread('rgbtest4.jpg');
+siyahbeyaz=im2bw(m1);
+figure, imshow (siyahbeyaz);
+figure, imshow (m1);
+ 
+
+3)RGB-GRAY CONVERSION
+m1=imread('rgbtest4.jpg');
+grayımage=rgb2gray(m1);
+figure, imshow (grayımage);
+figure, imshow (m1);
+
+WITHOUT READY CODE 
+m1=imread('test4-300x286.png')
+figure, imshow(m1)
+m2=0.2989*m1(:,:,1)+0.5870*m1(:,:,2)+0.1140*m1(:,:,3);
+figure, imshow(m2)
+>It is used to convert an RGB type image/image to agriformat wording on the mat.
+>The numeric image transforms from 3D to single size here.
+>CommandGrey=0.2989*R+0.5870*G+0.1140*B transforms.
+
+4)IMAGE ENLARGEMENT and REDUCTION 
+a=imread('rgbtest2-300x300.jpg');
+m1=imresize(a,1.5);                   
+imwrite(m1,'biber_büyük.bmp');
+m2=imresize(a,0.7);
+imwrite(m2,'biber_küçük.tif');
+figure, imshow(a);
+figure, imshow(m1);
+figure, imshow(m2);
+ 
+
+5)CUT PICTURE EXAM QUESTION
+m0=imread('Resim1.jpg');
+figure, imshow(m0);
+m1=m0(7:89,174:291);    %cut command
+figure, imshow(m1);
+m2=fliplr(m1);          %rotate command
+figure, imshow(m2);
+m3=imresize(m2,2.5);    %We enlarged the picture 2.5 times
+figure, imshow(m3);
+imwrite(m3,'soğan.jpg','Quality',80);
+ 
+
+
+6)TRESHOLDİNG
+m1=imread('test1.jpg');
+figure, imshow(m1);
+ 
+[satir sutun]=size(m1);
+for i=1:satir
+    for j=1:sutun
+        
+        if (m1(i,j)>=128);     %over 128 here
+        m2(i,j)=255;           %It says get 255 (white).
+        else                   %IF NOT
+        m2(i,j)=0;     %If it is less than 128 (black), it says.
+        end;
+ 
+    end;
+end;
+figure, imshow(m2);
+
+BY ENTERING THRESHOLD VALUE WITHOUT USING PRE-READY FUNCTIONS
+m1=imread('test1.jpg');
+esik=input('eşik değerini giriniz')
+figure, imshow(m1);
+ 
+[satir sutun]=size(m1);
+for i=1:satir
+    for j=1:sutun
+        
+        if (m1(i,j)>=esik)m2(i,j)=255;
+        else m2(i,j)=0;
+        end;
+    end;
+end;
+figure, imshow(m2);
+ 
+
+
+
+
+7)THRESHOLDING IN THE PICTURE
+(USING PRE-READY FUNCTIONS) (WITHOUT FORCE)
+m1=imread('test1.jpg');
+m2=(m1<=128);
+figure, imshow(m2);
+ 
+ 
+m1=imread('test1.jpg');
+m2=(m1>=128);
+figure, imshow(m2);
+
+ 
+8)THRESHOLDING IN THE PICTURE
+m1=imread('test3-300x227.jpg');
+ 
+m2=im2bw(m1);
+figure, imshow(m2);
+title('varsayılan im2bw');
+ 
+m3=im2bw(m1,0.25);
+figure, imshow(m3);
+title('im2bw 0.25');
+ 
+m4=im2bw(m1,0.75);
+figure, imshow(m4);
+title('im2bw 0.75');
+
+ 
+9) CONVERSIONS
+clc;clear;close all;
+m1=imread('test1.jpg');
+m2=im2double(m1);
+m3=im2uint8(m2);
+m4=im2uint16(m3);
+ 
+figure, imshow(m1);
+figure, imshow(m2);
+figure, imshow(m3);
+figure, imshow(m4);
+
+ 
+
+10) BOXES
+clc;clear;close all;
+m1=imread('kutular2.jpg');
+subplot(321); imshow (m1);
+k=m1(:,:,1);  %kırmızı kanalı çekme komutu
+subplot(322); imshow (k);
+gri=rgb2gray(m1);
+subplot(323); imshow (gri);
+m2=imsubtract(k,gri);
+subplot(324); imshow (m2);
+m3=(m2>=70);  %m3 logigal değerinde olur resmi binary olur
+subplot(325); imshow (m3);
+m4=bwareaopen(m3,1000);
+subplot(326); imshow (m4);%m3 ün siyah beyaz alanlarını aç
+
+
+ 
+11) DRAWING ORANGE BOX CHANNEL
+m1=imread('kutular2.jpg');
+subplot(221);
+imshow(m1)
+[satir sutun boyut]=size(m1);
+ 
+m2=uint8(zeros(satir,sutun,boyut));
+for i=1:satir
+    for j=1:sutun
+        if(m1(i,j,1)>=175 && m1(i,j,2)>=130 && (120>=m1(i,j,3)&& m1(i,j,3)>=20)) % && ve demek
+            m2(i,j,:)=m1(i,j,:);
+        end;
+       
+    end;
+end;
+subplot(222);  imshow(m2); 
+m3=im2bw(m2);  %make the yellow box black and white
+subplot(223);  imshow(m3); 
+m4=bwareaopen(m3,1000); %cleaning
+subplot(223);  imshow(m3);
+ 
+12)BLUE CHANNEL DRAWING MODEL WITH BOX SAMPLE
+m1=imread('kutular1.jpg');
+subplot(321);              %3 rows 2 columns first
+imshow(m1);
+m=m1(:,:,3);               %command to pull blue channel
+subplot(322);
+imshow(m);
+gri=rgb2gray(m1);
+subplot(323);
+imshow(gri);
+m2=imsubtract(m,gri);
+m3=(m2>=45);        %m3 will be logical, become official binary
+subplot(324);
+imshow(m3);
+m4=bwareaopen(m3,1000);    %open black and white areas of m3
+subplot(325);
+imshow(m4);
+ 
+13) SPECKLE NOISE
+m1=imread('test1.jpg');
+subplot(221);
+imshow(m1);
+m2=imnoise(m1,'speckle');
+subplot(222);
+imshow(m2);
+        
+14) ADD A SPECK FILTER
+m1=imread('test1.jpg');
+subplot(221);
+imshow(m1);
+m2=imnoise(m1,'speckle');
+subplot(222);
+imshow(m2);
+F1=fspecial('average',[3 3]);
+m3=imfilter(m2,F1);
+subplot(223);
+imshow(m3);
+F2=fspecial('average',[7 7]);
+m4=imfilter(m2,F2);
+subplot(224);
+imshow(m4);
+ 
+
+15)ADD A SPECK FILTER (WITHOUT USING FINISH FUNCTIONS)
+m1=imread('test1.jpg');
+subplot(221);
+imshow(m1);
+m2=imnoise(m1,'gauss');
+subplot(222);
+imshow(m2);
+maske=ones(3)/9;  %We make the filter ourselves. The filter consisted of 1%9 elements. We had this process done by ourselves.  
+m3=padarray(m2,[1 1]) %MASK made a frame from 0s added 1 row 1 column 0 M3 TYPE UINT8
+[satir sutun]=size(m2);
+for i=1:satir %size(m2,1)
+    for j=1:sutun %size(m2,2)
+        yeni=double(m3(i:i+2,j:j+2)).*maske;
+        m4(i,j)=sum(yeni(:)); %We collected the elements in the matrix with the sum command
+    end;
+end;
+subplot(223);
+imshow(uint8(m4));
+subplot(224);
+imshow(m3);
+
+16) ADD GAUSSIAN FILTER
+m1=imread('test1.jpg');
+subplot(221);
+imshow(m1);
+m2=imnoise(m1,'gauss');
+subplot(222);
+imshow(m2);
+F=fspecial('gaussian',[3 3]);
+m3=imfilter(m2,F);
+subplot(223);
+imshow(m3);
+ 
+17) ADD MEDIAN MEDIA FILTER TO BLACK AND WHITE PICTURE
+m1=imread('test1.jpg');
+subplot(221);
+imshow(m1);
+m2=imnoise(m1,'salt & pepper');
+subplot(222);
+imshow(m2);
+m3=medfilt2(m2); %The meaning of 2 in this command is that I only filter images with 2D channels.
+subplot(223);
+imshow(m3);
+
+WITHOUT USING PRE-READY FUNCTIONS
+m1=imread('test1.jpg');
+subplot(221);
+imshow(m1);
+m2=imnoise(m1,'salt & pepper');
+subplot(222);
+imshow(m2);
+ 
+m3=padarray(m2,[1 1]) 
+[satir sutun]=size(m2);
+for i=1:satir 
+    for j=1:sutun 
+        yeni=double(m3(i:i+2,j:j+2));
+        m4(i,j)=median(yeni(:));
+    end;
+end;
+ 
+subplot(223);
+imshow(uint8(m4));
+ 
+ 
+18) ADD MEDIAN MEDIA FILTER TO RGB PICTURE
+m1=imread('rgbtest2-300x300.jpg');
+subplot(131);
+imshow(m1);
+m2=imnoise(m1,'salt & pepper');
+subplot(132);
+imshow(m2);
+ 
+m2r=m2(:,:,1);
+m2g=m2(:,:,2);
+m2b=m2(:,:,3);
+ 
+m3(:,:,1)=medfilt2(m2r);
+m3(:,:,2)=medfilt2(m2g);
+m3(:,:,3)=medfilt2(m2b);
+ 
+subplot(133);
+imshow(m3);
+ 
+19) SOBEL FILTER
+m1=imread('test1.jpg');
+subplot(221); imshow(m1);
+F=fspecial('sobel');
+m2=imfilter(m1,F);
+subplot(222); imshow(m2);
+ 
+20) SOBEL FİLTER 2
+m1=imread('test1.jpg');
+subplot(221); imshow(m1); title('orjinal resim')
+tic;  %tic toc command, it shows us how long it takes matlab to write the command written between tic toc.
+m2=edge(m1,'sobel','horizontal');
+subplot(222); imshow(m2); title('yatay sobel')
+toc;
+m3=edge(m1,'sobel','vertical');
+subplot(223); imshow(m3); title('dikey sobel')
+m4=edge(m1,'sobel','both');  %If you don't write both default it will do both as default
+subplot(224); imshow(m4); title('yatay ve dikey sobel')
+
+ 
+21) PREWITT WITH IMPILTER
+m1=imread('test1.jpg');
+filtre=fspecial('prewitt');
+m2=imfilter(m1,filtre);
+subplot(221); imshow(m1); title('orjinal resim');
+subplot(222); imshow(m2); title('prewitt resim');
+ 
+  
+22) PREWITT WITH EDGE
+m1=imread('test1.jpg');
+m2=edge(m1,'prewitt','both');
+m3=edge(m1,'prewitt','horizontal');
+m4=edge(m1,'prewitt','vertical');
+ 
+ 
+subplot(221); imshow(m1); title('orjinal resim');
+subplot(222); imshow(m2); title('prewitt both');
+subplot(223); imshow(m3); title('prewitt horizontal');
+subplot(224); imshow(m4); title('prewitt veritical');
+ 
+
+23)SHARPENING WITH UNSHARP FILTER
+m1=imread('test1.jpg');
+F=fspecial('unsharp');
+m2=imfilter(m1,F);
+ 
+ 
+subplot(221); imshow(m1); title('orjinal resim');
+subplot(222); imshow(m2); title('unsharp');
+ 
+ 
+24) SHARPENING WITH MOITION FILTER
+m1=imread('test1.jpg');
+F=fspecial('motion');
+m2=imfilter(m1,F);
+ 
+ 
+subplot(221); imshow(m1); title('orjinal resim');
+subplot(222); imshow(m2); title('motion');
+ 
+25) EXPANSION OPERATOR
+m1=imread('bwtest1-300x295.png');
+subplot(221);imshow(m1);
+ 
+YE=strel('disk',2);  %The number after (, ) represents the radius of the disc. Except for the centre.
+m2=imdilate(m1,YE);
+subplot(222);imshow(m2);
+ 
+26) DİAMOND
+m1=imread('bwtest1-300x295.png');
+subplot(221);imshow(m1); title('orjinal görüntü')
+ 
+YE=strel('diamond',2);
+m2=imdilate(m1,YE);
+subplot(222);imshow(m2); title('diamond R=2')
+ 
+YE=strel('diamond',6);
+m3=imdilate(m1,YE);
+subplot(223);imshow(m3); title('diamond R=6')
+ 
+YE=strel('diamond',12);  
+m4=imdilate(m1,YE);
+subplot(224);imshow(m4); title('di
+
+ 
+26) EXPANDING AND DETERMINING WITH SQUARE
+m1=imread('bwadam.jpg');
+subplot(131);imshow(m1); title('orjinal görüntü')
+ 
+YE=strel('square',4);
+m2=imdilate(m1,YE);
+subplot(132);imshow(m2); title('YE ile genişletme')
+ 
+YE=strel('square',4);
+m3=m2-m1
+subplot(133);imshow(m3); title('sınırları belirlenmiş')
+
+ 
+27) FIXING BROKEN WRITING
+m1=imread('bozuktext-300x262.jpg');
+subplot(221);imshow(m1); title('orjinal görüntü')
+ 
+m2=imcomplement(m1);
+subplot(222);imshow(m2);
+ 
+YE=[0 1 0;1 1 1;0 1 0];
+ 
+m3=imdilate(m2,YE);
+subplot(223);imshow(m3); title('YE ile 1. düzeltme')
+ 
+m4=imdilate(m3,YE);
+subplot(224);imshow(m4); title('YE ile 2. düzeltme')
+ 
+28) ABRASION OPERATOR (ERESION)
+     28.1) ABRASION WITH RECTANGLE
+m1=imread('bwtest1-300x295.png');
+subplot(221);imshow(m1);
+ 
+K=strel('rectangle',[4 3])
+m2=imerode(m1,K)
+subplot(222);imshow(m2);
+
+ 
+     28.2) ABRASION WITH SQUARE
+m1=imread('bwtest1-300x295.png');
+subplot(221);imshow(m1);
+ 
+YE=strel('square',5);
+m2=imerode(m1,YE)
+subplot(222);imshow(m2);
+ 
+YE=strel('square',10);
+m3=imerode(m1,YE)
+subplot(223);imshow(m3);
+ 
+YE=strel('square',20);
+m4=imerode(m1,YE)
+subplot(224);imshow(m4);
+ 
+     28.3) ABRASION SAMPLE
+m1=imread('rgbbozukparalar-292x300.jpg');
+subplot(321);imshow(m1); title('orjinal resim')
+ 
+m2=im2bw(m1);
+subplot(322);imshow(m2); title('siyah beyazimge')
+ 
+m3=1-m2;
+subplot(323);imshow(m3); title('siyah beyaz imge')
+ 
+m4=bwareaopen(m3,25);
+subplot(324);imshow(m4);  title('25"ten az olan pikseller  çıkarıldı')
+ 
+m5=imfill(m4,'holes')
+subplot(325);imshow(m5);  title('imfill(m, "holes") ile boşluklar dolduruldu')
+ 
+YE=strel('disk',12)
+m6=imerode(m5,YE)
+subplot(326);imshow(m6);  title('disk YE ile birleşim noktalarıaşındırıldı')
+ 
+     28.3) ABRASION HOMEWORK
+m1=imread('rgbyumurtalar.jpg');
+subplot(121);imshow(m1); title('orjinal resim')
+m2=m1(:,:,1);
+m4=rgb2gray(m1)
+m5=m2-m4;
+m6=imfill(m5,'holes')
+ 
+YE=strel('disk',14)
+m7=imerode(m6,YE)
+subplot(122);imshow(m6);
+
+ 
+
+ 
+29) FINAL QUESTION
+m1=imread('test3-300x227.jpg')
+deger=input('bir değer giriniz')
+[x,y,z]=size(m1);
+for i=1:x
+    for j=1:y
+    yyy(i,j)=m1(i,j,1)*0.2989+m1(i,j,2)*0.5870+m1(i,j,3)*0.1140;     
+    gri=im2double(yyy);              %In the question, I converted this gray image to a requested double in double.
+    
+    if(m1(i,j)>=deger) m2(i,j)=255;  %I made it black and white by entering the value from outside
+    else m2(i,j)=0;
+    end;
+    
+    m3=1-gri;                        %we subtracted it from 255 when we got the negative picture  It is valid for uint8, here in the question it said to double the gray image, then we need to make 1-gray in the negative because the double image is between 0 and 1.
+    end;
+end;
+subplot(221);
+imshow(gri);
+subplot(222);
+imshow(m1);
+subplot(224);
+imshow(m2);
+subplot(223);
+imshow(m3);
+
+ 
+29) SAMPLE
+m1=imread('test4-300x286.png')
+[x,y,z]=size(m1);
+for i=1:x
+    for j=1:y
+    gri(i,j)=m1(i,j,1)*0.2989+m1(i,j,2)*0.5870+m1(i,j,3)*0.1140;
+    m2=im2bw(m1);
+    end;
+end;
+subplot(221)
+imshow(gri)
+subplot(222)
+imshow(m2)
